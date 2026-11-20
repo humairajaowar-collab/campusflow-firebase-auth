@@ -1,0 +1,9 @@
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../providers/AuthProvider';
+
+export default function Dashboard() {
+  const { user } = useContext(AuthContext);
+  const name = user?.displayName || user?.email?.split('@')[0] || 'there';
+  return <section className="dashboard-page"><div className="dashboard-welcome"><div><span className="eyebrow">YOUR PERSONAL SPACE</span><h1>Welcome in, <em>{name}.</em></h1><p>You're signed in and all set. Here's your CampusFlow overview.</p></div><div className="welcome-stamp">✦<small>MEMBER<br/>SPACE</small></div></div><div className="dashboard-grid"><article className="dash-card profile-summary"><div className="dash-card-head"><span>ACCOUNT OVERVIEW</span><span className="status-pill">● ACTIVE</span></div><div className="profile-row">{user?.photoURL ? <img className="user-avatar" src={user.photoURL} alt="Profile"/> : <div className="user-avatar avatar-initial">{name.charAt(0).toUpperCase()}</div>}<div><h2>{user?.displayName || 'CampusFlow member'}</h2><p>{user?.email}</p></div></div><div className="dash-divider"/><div className="detail-line"><span>Sign-in provider</span><b>{user?.providerData?.[0]?.providerId?.replace('.com', '') || 'Email & password'}</b></div><div className="detail-line"><span>Email verification</span><b>{user?.emailVerified ? 'Verified ✓' : 'Not verified'}</b></div><Link to="/profile" className="text-link">View full profile →</Link></article><article className="dash-card quick-card"><span className="feature-icon">◇</span><span className="eyebrow">QUICK ACCESS</span><h2>Your profile,<br/>your details.</h2><p>Review the information connected to your account.</p><Link to="/profile" className="button primary">Open profile ↗</Link></article></div><div className="security-note"><span>✓</span><p><b>You're in a protected area.</b><br/>Only authenticated users can access your dashboard and profile.</p></div></section>;
+}
